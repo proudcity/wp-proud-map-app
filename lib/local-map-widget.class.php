@@ -36,7 +36,8 @@ class LocalMap extends Core\ProudWidget {
 
   public function registerLibraries() {
     global $proudcore;
-    $proudcore::$libraries->addAngular(true, false, true);
+    $proudcore::$libraries->addMaps();
+    $proudcore::$libraries->addAngular(true, true, true);
   }
 
   public function enqueueFrontend() {
@@ -45,8 +46,9 @@ class LocalMap extends Core\ProudWidget {
     wp_enqueue_script('proud-map-app', $path . 'proud-map-app.js', array('angular'), false, true);
     // Angular resources
     $path .= 'proud-map-app/dist/';
-    wp_enqueue_script('proud-map-app-libraries', $path . 'js/libraries.min.js', array('angular'), false, true);
-    wp_enqueue_script('proud-map-app-app', $path . 'js/app.min.js', array('proud-map-app-libraries'), false, true);
+    // Not needed since moving map stuff to libraries
+    // wp_enqueue_script('proud-map-app-libraries', $path . 'js/libraries.min.js', array('angular'), false, true);
+    wp_enqueue_script('proud-map-app-app', $path . 'js/app.min.js', array('angular'), false, true);
     wp_enqueue_script('proud-map-app-templates', $path . 'views/app.templates.js', array('proud-map-app-app'), false, true);
     // CSS
     wp_enqueue_style('proud-map-app-css', $path . 'css/app.min.css');
