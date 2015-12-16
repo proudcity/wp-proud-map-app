@@ -13,4 +13,11 @@ License URI:        http://opensource.org/licenses/MIT
 
 namespace Proud\MapApp;
 
-require_once __DIR__ . '/lib/local-map-widget.class.php';
+if ( ! function_exists( 'proud_map_init_widget' ) ) {
+  // Init on plugins loaded
+  function proud_map_init_widget() {
+    require_once plugin_dir_path(__FILE__) . '/lib/local-map-widget.class.php';
+  }
+}
+
+add_action('plugins_loaded', __NAMESPACE__ . '\\proud_map_init_widget');

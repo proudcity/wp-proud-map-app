@@ -1,12 +1,17 @@
 
 (function($, Proud) {
-  $(document).ready(function(){
-    Proud.settings.proud_map_app = Proud.settings.proud_map_app || {app_id: 'proud-map-app'};
-    if (Proud.settings.proud_map_app!= undefined) {
-      var $app = $('#'+Proud.settings.proud_map_app.app_id);
-      $app.once('appinit', function() {
-        angular.bootstrap($app, ['mapAppParent']);
-      });
+  Proud.behaviors.proud_map_app = {
+    attach: function(context, settings) {
+      var instances = _.get(settings, 'proud_map_app.instances');
+      // initialize instances
+      if (instances) {
+        $.each(instances, function(id, appVals) {
+          var $app = $('#' + id);
+          if(!$app.hasClass('ng-scope')) {
+            angular.bootstrap($app, ['mapAppParent']);
+          }
+        });
+      }
     }
-  });
+  }
 })(jQuery, Proud);

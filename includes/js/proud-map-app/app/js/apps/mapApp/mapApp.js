@@ -8,8 +8,6 @@ angular.module('mapApp', [
 .run(
   [          '$rootScope', '$window', '$location', 
     function ($rootScope,   $window,   $location) {
-      var drupal = typeof Drupal !== 'undefined' ? Drupal : {}; 
-      $rootScope.appPath =  _.get(drupal, 'settings.proud_map_app.app_path') || '/';
     }
   ]
 )

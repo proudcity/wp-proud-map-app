@@ -1,9 +1,10 @@
 'use strict';
 
 // Deal with local HTML5 Mode
+var serveStatic = require('serve-static');
 var modRewrite = require('connect-modrewrite');
 var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
+  return connect().use(require('path').resolve(dir), serveStatic(require('path').resolve(dir)));
 };
 var filesRedirect = '!\\.html|\\.js|\\.svg|\\.woff|\\.ttf|\\.eot|\\.otf|\\.css|\\.png|\\.jpg$ /index.html [L]';
 
@@ -146,13 +147,7 @@ module.exports = function(grunt) {
 					base: '<%= app %>/',
 					open: true,
 					livereload: 35727,
-					hostname: 'localhost',
-					middleware:  function (connect) {
-            return [
-              modRewrite ([filesRedirect]),
-              mountFolder(connect, 'app')
-            ];        
-	        }
+					hostname: 'localhost'
 				}
 			},
 			dist: {
@@ -162,13 +157,7 @@ module.exports = function(grunt) {
 					open: true,
 					keepalive: true,
 					livereload: false,
-					hostname: 'localhost',
-					middleware:  function (connect) {
-            return [
-              modRewrite ([filesRedirect]),
-              mountFolder(connect, 'dist')
-            ];        
-	        }
+					hostname: 'localhost'
 				}
 			}
 		},

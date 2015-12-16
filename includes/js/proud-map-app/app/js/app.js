@@ -28,12 +28,12 @@ angular.module('mapAppParent', [
 .controller('MapControl', ['$scope', '$rootScope', '$filter', '$http',
                    function($scope,   $rootScope,   $filter,   $http){
 
-    var drupal = typeof Drupal !== 'undefined' ? Drupal : {}; 
+    Proud = Proud || {}; 
 
     var $state = {
       params: {
-        city: _.get(drupal, 'settings.proud_map_app.city') || 'seattle',
-        state: _.get(drupal, 'settings.proud_map_app.state') || 'washington'
+        city: _.get(Proud, 'settings.global.location.city') || 'seattle',
+        state: _.get(Proud, 'settings.global.location.state') || 'washington'
       }
     }
 
@@ -71,9 +71,9 @@ angular.module('mapAppParent', [
     }
 
     $http.get($rootScope.proudcityApi +'?state='+ $state.params.state +'&city='+ $state.params.city).success(function(data){
-      // Drupal options
-      data.lat = _.get(drupal, 'settings.proud_map_app.lat') || data.lat;
-      data.lng = _.get(drupal, 'settings.proud_map_app.lng') || data.lng;
+      // Proud options
+      data.lat = _.get(Proud, 'settings.global.location.lat') || data.lat;
+      data.lng = _.get(Proud, 'settings.global.location.lng') || data.lng;
 
       $scope.location = {
         city: data.city,
