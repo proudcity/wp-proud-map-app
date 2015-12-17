@@ -13,11 +13,28 @@ License URI:        http://opensource.org/licenses/MIT
 
 namespace Proud\MapApp;
 
-if ( ! function_exists( 'proud_map_init_widget' ) ) {
+// Load Extendible
+// -----------------------
+if ( ! class_exists( 'ProudPlugin' ) ) {
+  require_once( plugin_dir_path(__FILE__) . '../wp-proud-core/proud-plugin.class.php' );
+}
+
+class MapApp extends \ProudPlugin {
+
+  function __construct() {
+
+    parent::__construct( array(
+      'textdomain'     => 'wp-proud-map-app',
+      'plugin_path'    => __FILE__,
+    ) );
+
+    $this->hook('plugins_loaded', 'proud_map_init_widget');
+  }
+
   // Init on plugins loaded
-  function proud_map_init_widget() {
+  public function proud_map_init_widget() {
     require_once plugin_dir_path(__FILE__) . '/lib/local-map-widget.class.php';
   }
 }
 
-add_action('plugins_loaded', __NAMESPACE__ . '\\proud_map_init_widget');
+new MapApp;

@@ -20,7 +20,7 @@ class LocalMap extends Core\ProudWidget {
 
   function initialize() {
     $this->settings = [
-      'active_tabs' => [
+      'active_layers' => [
         '#title' => 'Active layers',
         '#type' => 'checkboxes',
         '#options' => [
