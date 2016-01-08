@@ -1,6 +1,5 @@
 @charset "UTF-8";
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-@import url("http://fonts.googleapis.com/css?family=Lato:400,900,700,300");
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -8756,7 +8755,7 @@ body.proud-navbar-active.proud-toolbar-active .navbar-proud {
 @media screen and (max-width: 991px) {
   body.proud-navbar-active.proud-toolbar-active .navbar-header-region {
     padding-top: 49px; }
-  body.proud-navbar-active.admin-menu .navbar-header-region {
+  body.proud-navbar-active.admin-menu .navbar-header-region, body.proud-navbar-active.admin-bar .navbar-header-region {
     padding-top: 0; }
   body.proud-navbar-active div#panels-ipe-control-container {
     bottom: 48px; } }
@@ -8784,10 +8783,10 @@ body.proud-navbar-active.proud-toolbar-active .navbar-proud {
     body.proud-navbar-active.proud-toolbar-active .navbar-external {
       bottom: auto;
       top: 49px; }
-  body.proud-navbar-active.admin-menu {
-    padding-top: 73px; }
-    body.proud-navbar-active.admin-menu .navbar-external {
-      top: 21px; } }
+  body.proud-navbar-active.admin-menu, body.proud-navbar-active.admin-bar {
+    padding-top: 52px; }
+    body.proud-navbar-active.admin-menu .navbar-external, body.proud-navbar-active.admin-bar .navbar-external {
+      top: 32px; } }
 
 .navbar-header-region h2, .navbar-header-region h3 {
   margin: 12px 0; }
@@ -8835,7 +8834,7 @@ body.proud-navbar-active.proud-toolbar-active .navbar-proud {
   .proud-toolbar-active .proud-overlay-close {
     top: 50px; }
 
-.search-active .panel-banner * {
+.search-active .panel-banner *, .search-active .wr-element-jumbotronheader * {
   position: static !important; }
 
 .search-active #wrapper-search {
@@ -8999,11 +8998,11 @@ body.proud-navbar-active.proud-toolbar-active .navbar-proud {
   .box-margin-bottom {
     margin-bottom: 50px; } }
 
-.translate ul.dropdown-menu li {
+.translate ul.dropdown-menu li, .widget_proud_google_translate ul.dropdown-menu li {
   padding: 10px 15px;
   min-width: 240px; }
 
-.translate select {
+.translate select, .widget_proud_google_translate select {
   display: block;
   width: 100%;
   height: 41px;
@@ -9019,19 +9018,21 @@ body.proud-navbar-active.proud-toolbar-active .navbar-proud {
   -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   -moz-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s; }
-  .translate select:focus {
+  .translate select:focus, .widget_proud_google_translate select:focus {
     border-color: #66afe9;
     outline: 0;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6); }
   .translate select[disabled], .translate select[readonly],
-  fieldset[disabled] .translate select {
+  fieldset[disabled] .translate select, .widget_proud_google_translate select[disabled], .widget_proud_google_translate select[readonly],
+  fieldset[disabled] .widget_proud_google_translate select {
     background-color: #d6d7d9;
     opacity: 1; }
   .translate select[disabled],
-  fieldset[disabled] .translate select {
+  fieldset[disabled] .translate select, .widget_proud_google_translate select[disabled],
+  fieldset[disabled] .widget_proud_google_translate select {
     cursor: not-allowed; }
 
-.translate.translate-stacked {
+.translate.translate-stacked, .widget_proud_google_translate.translate-stacked {
   margin: 6px 0; }
 
 .share.share-inline li,
@@ -9053,13 +9054,13 @@ body.proud-navbar-active.proud-toolbar-active .navbar-proud {
     padding-left: 5px;
     padding-right: 5px; }
 
-.font-size .dropdown-menu {
+.font-size .dropdown-menu, .widget_proud_font_size .dropdown-menu {
   min-width: 198px;
   padding: 3px 6px; }
-  .font-size .dropdown-menu.nav-pills > li > a {
+  .font-size .dropdown-menu.nav-pills > li > a, .widget_proud_font_size .dropdown-menu.nav-pills > li > a {
     padding: 6px 12px;
     font-family: Georgia, "Times New Roman", Times, serif; }
-    .font-size .dropdown-menu.nav-pills > li > a sup {
+    .font-size .dropdown-menu.nav-pills > li > a sup, .widget_proud_font_size .dropdown-menu.nav-pills > li > a sup {
       font-weight: bold; }
 
 .social.social-inline li,
@@ -9361,12 +9362,16 @@ footer.page-footer {
       padding-right: 0; } }
 
 .page-header {
-  margin: 0; }
+  margin: 0 0 13.5px 0; }
   .page-header,
   .page-header h1,
   .page-header h2,
   .page-header h3 {
     color: #323a45; }
+  .page-header h1,
+  .page-header h2,
+  .page-header h3 {
+    margin-bottom: 0; }
 
 .navbar-proud {
   background-color: #323a45;

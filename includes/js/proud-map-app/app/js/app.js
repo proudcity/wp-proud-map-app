@@ -70,19 +70,19 @@ angular.module('mapAppParent', [
       }
     }
 
-    $http.get($rootScope.proudcityApi +'?state='+ $state.params.state +'&city='+ $state.params.city).success(function(data){
+    //$http.get($rootScope.proudcityApi +'?state='+ $state.params.state +'&city='+ $state.params.city).success(function(data){
       // Proud options
+      var data = {};
       data.lat = _.get(Proud, 'settings.global.location.lat') || data.lat;
       data.lng = _.get(Proud, 'settings.global.location.lng') || data.lng;
 
       $scope.location = {
-        city: data.city,
-        county: data.county,
-        state: data.state
+        city: _.get(Proud, 'settings.global.location.city') || data.lat,
+        state: _.get(Proud, 'settings.global.location.state') || data.state
       };
 
       $scope.settings = _.merge(data, $scope.settings);
-    });
+    //});
 
   }
 ])
