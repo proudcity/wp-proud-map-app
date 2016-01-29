@@ -13,8 +13,10 @@ class LocalMap extends Core\ProudWidget {
   function __construct() {
     parent::__construct(
       'proud_map_app', // Base ID
-      __( 'ProudCity Map', 'wp-proud-map-app' ), // Name
-      array( 'description' => __( 'An interactive localized map interface', 'wp-proud-map-app' ), ) // Args
+      __( 'ProudCity services map', 'wp-proud-map-app' ), // Name
+      array( 
+        'description' => __( 'An interactive services map of for your city', 'wp-proud-map-app' ),
+      ) // Args
     );
   }
 
