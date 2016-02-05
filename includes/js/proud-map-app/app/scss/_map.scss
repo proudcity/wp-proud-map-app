@@ -145,7 +145,7 @@ $bounce-height: 30px;
     color: $white;
   }
 
-  &.fullscreen {
+  .proud-map-fullscreen & {
     .fullscreen-wrap {
       position: fixed;
       z-index: $overlay-z-index + 1;
@@ -198,13 +198,13 @@ $bounce-height: 30px;
     z-index: 1;
     display: none;
 
-    .fullscreen & {
+    .proud-map-fullscreen & {
       display: block;
     }
   }
 
   .leaflet-top {
-    .fullscreen & {
+    .proud-map-fullscreen & {
       top: 35px;
     }
   } 

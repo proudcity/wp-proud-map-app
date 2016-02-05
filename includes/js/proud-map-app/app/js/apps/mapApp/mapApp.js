@@ -8,6 +8,11 @@ angular.module('mapApp', [
 .run(
   [          '$rootScope', '$window', '$location', 
     function ($rootScope,   $window,   $location) {
+      // Capture url for back button
+      $rootScope.$on('$locationChangeSuccess', function() {
+        console.log($location.path());
+        $rootScope.actualLocation = $location.absUrl();
+      });        
     }
   ]
 )
@@ -32,7 +37,7 @@ angular.module('mapApp', [
 // )
 
 
-.directive('foursquareMap', function factory($window, $browser, $http, $rootScope) {
+.directive('foursquareMap', function factory($window, $browser, $http, $location, $rootScope) {
   return {
     restrict: 'A',
     templateUrl: 'views/apps/mapApp/map.html',
@@ -43,7 +48,8 @@ angular.module('mapApp', [
     link: function($scope, $element, $attrs) {
       $scope.details = {};
 
-      var $mapWrap = $('#map-wrapper');
+      var $mapWrap = $('#map-wrapper'),
+          $body    = $('body');
 
       // Set up full screen action
       $scope.toggleFullScreen = function(e) {
@@ -52,7 +58,7 @@ angular.module('mapApp', [
           e.stopPropagation();
         }
         $rootScope.fullScreen = !$rootScope.fullScreen;
-        $mapWrap.toggleClass('fullscreen');
+        $body.toggleClass('proud-map-fullscreen');
       }
       // Expand map if closed
       $mapWrap.click(function(e) {
@@ -61,9 +67,17 @@ angular.module('mapApp', [
           window.map.invalidateSize();
         }
       });
+      // Listen for esc key
+      $body.keydown(function(e) {  //keypress did not work with ESC;
+        if (e.which == '27' && $rootScope.fullScreen) {
+          $scope.toggleFullScreen();
+        }
+      }); 
       // Listen for back button
-      $rootScope.$on('fullscreenClose', function(args) {
-        $scope.toggleFullScreen();
+      $rootScope.$watch(function () { return $location.absUrl() }, function (newLocation, oldLocation) {
+        if($rootScope.actualLocation === newLocation && $rootScope.fullScreen) {
+            $scope.toggleFullScreen();
+        }
       });
 
       // Slide filters for mobile

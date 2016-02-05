@@ -155,7 +155,7 @@
   text-align: center;
   color: #FFF; }
 
-#map-wrapper.fullscreen .fullscreen-wrap {
+.proud-map-fullscreen #map-wrapper .fullscreen-wrap {
   position: fixed;
   z-index: 2001;
   height: 100%;
@@ -163,7 +163,7 @@
   top: 0;
   left: 0; }
 
-#map-wrapper.fullscreen:before {
+.proud-map-fullscreen #map-wrapper:before {
   content: none; }
 
 .overflow {
@@ -191,9 +191,9 @@
     text-align: center;
     z-index: 1;
     display: none; }
-    .fullscreen .overflow .full-screen-button {
+    .proud-map-fullscreen .overflow .full-screen-button {
       display: block; }
-  .fullscreen .overflow .leaflet-top {
+  .proud-map-fullscreen .overflow .leaflet-top {
     top: 35px; }
   .overflow .menu-ui a {
     color: #404040;
