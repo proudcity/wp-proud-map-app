@@ -10,7 +10,6 @@ angular.module('mapApp', [
     function ($rootScope,   $window,   $location) {
       // Capture url for back button
       $rootScope.$on('$locationChangeSuccess', function() {
-        console.log($location.path());
         $rootScope.actualLocation = $location.absUrl();
       });        
     }
