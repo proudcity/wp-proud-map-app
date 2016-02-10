@@ -195,7 +195,7 @@ angular.module('mapApp', [
                     case 'foursquare':
                       if (Array.isArray(params.query)) {
                         for (var i=0; i<params.query.length; i++) {
-                          addFoursquareLayer(params.query[i], 'small');
+                          addFoursquareLayer(params.query[i], 'large');
                         }
                       }
                       else {
@@ -424,7 +424,7 @@ angular.module('mapApp', [
                   props.status == 'Closed' ? '#9BBF6A' : 
                    '#CCCCCC' // Archived;
                 props['marker-color'] = color;
-                props['marker-size'] = 'small';
+                props['marker-size'] = 'large';
                 props['marker-symbol'] = props.media.image_full != undefined ? 'star' : 'star-stroked';
                 props.title = props.summary;
                 //props.body = props.description;
