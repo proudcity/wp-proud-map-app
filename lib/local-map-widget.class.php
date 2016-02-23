@@ -21,13 +21,23 @@ class LocalMap extends Core\ProudWidget {
   }
 
   function initialize() {
+    // Get answers topics
+    $topics = get_categories( [
+      'taxonomy' => 'location-taxonomy',
+      //'orderby' => 'name',
+      'parent' => 0
+    ] );
+    $options = [];
+    if( !empty( $topics ) && empty( $topics['errors'] ) ) {
+      foreach ( $topics as $topic ) {
+        $options['wordpress:' . $topic->slug . ':' . $topic->name] = $topic->name;
+      }
+    }
     $this->settings = [
-      'active_layers' => [
-        '#title' => 'Active layers',
+      'layers' => [
+        '#title' => 'Layers',
         '#type' => 'checkboxes',
-        '#options' => [
-          'all' => 'All',
-        ],
+        '#options' => $options,
         '#default_value' => ['all'],
         '#description' => 'Click all layers you would like to appear',
         '#to_js_settings' => true
@@ -54,6 +64,15 @@ class LocalMap extends Core\ProudWidget {
     wp_enqueue_script('proud-map-app-templates', $path . 'views/app.templates.js', array('proud-map-app-app'), false, true);
     // CSS
     wp_enqueue_style('proud-map-app-css', $path . 'css/app.min.css');
+
+    // Add global settings
+    parent::addJsSettings(array(
+     //'payment_key' => '', //@todo
+     'api_path' => get_option( 'proudcity_api', '/wp-json/wp/v2/locations/' ),
+     //'payment_url' => '',
+     //'track_url' => '',
+     //'seeclickfixUrl' => '',
+    ), true);
   }
 
   /**
