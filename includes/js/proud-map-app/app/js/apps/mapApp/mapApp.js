@@ -63,7 +63,7 @@ angular.module('mapApp', [
       $mapWrap.click(function(e) {
         if(!$rootScope.fullScreen) {
           $scope.toggleFullScreen(e);
-          //window.map.invalidateSize();
+          window.map.invalidateSize();
         }
       });
       // Listen for esc key
@@ -92,8 +92,6 @@ angular.module('mapApp', [
       });
 
       $scope.$watch('proudMap', function(settings){
-        console.log(settings);
-
         if (_.has(settings, 'lat')) {
 
           var layers = document.getElementById('menu-ui');
@@ -118,7 +116,6 @@ angular.module('mapApp', [
             var layer = value.split(':');
             addLayer(layer[2], layer[0], null, layer[1], i==0);
             i++;
-            console.log(layer);
           });            
 
           
@@ -152,12 +149,11 @@ angular.module('mapApp', [
 
                   //map.setView(new L.LatLng(settings.lat, settings.lng), zoom, {animate: true});
                   
-                  //map.invalidateSize();
+                  map.invalidateSize();
                   
 
                   switch(type) {
                     case 'wordpress':
-                    console.log(query);
                       addWordpressLayer(query);
                       //attr.addAttribution('This website');
                       break;
@@ -197,10 +193,8 @@ angular.module('mapApp', [
           }
           
           function addWordpressLayer(query) {
-            console.log(settings.wordpress.apiUrl);
             var url = settings.wordpress.apiUrl + '?direction=ASC&filter%5Blocation-taxonomy%5D='+ query +'&sort=date';
             $.getJSON(url, {}, function(data) {
-              console.log(data);
               var geojson = {
                 type: 'FeatureCollection',
                 features: []
@@ -209,7 +203,7 @@ angular.module('mapApp', [
                 var item = data[i];
                 var properties = item.meta;
                 if (properties.lng != undefined && properties.lat != undefined) {
-                  var marker = iconColor(query);
+                  var marker = iconColor(properties.icon);
                   $.extend(properties, marker, {
                     title: item.title.rendered,
                     //'marker-size': size,
@@ -224,7 +218,6 @@ angular.module('mapApp', [
                   });
                 }
               }
-              console.log(geojson);
               
               mapLayers[query] = L.mapbox.featureLayer().setGeoJSON(geojson);
               mapLayers[query].on('mouseover', function(e) {
@@ -239,7 +232,6 @@ angular.module('mapApp', [
                 props.googleLocal = {
                   hours: props.hours
                 }
-                console.log(props);
                 $mapWrap.addClass("details-open");
                 $scope.details = props;
                 $scope.$apply();
@@ -426,8 +418,8 @@ angular.module('mapApp', [
           function iconColor(category) {
             var color = '#997C61';
             var icon = 'marker';
-            category = category.toLowerCase();
-            if (category.indexOf('library') !=-1) {
+            category = category != undefined && category != null ? category.toLowerCase() : '';
+            if (category.indexOf('librar') !=-1) {
               icon = 'library';
               color = '#A973A9';
             }
@@ -447,7 +439,7 @@ angular.module('mapApp', [
               icon = 'post';
               color = '#5A97C4';
             }
-            else if (category.indexOf('park') != -1 || category.indexOf('field') != -1) {
+            else if (category.indexOf('park') != -1 || category.indexOf('field') != -1 || category.indexOf('market') != -1 ) {
               icon = 'park';
               color = '#9BBF6A';
             }
