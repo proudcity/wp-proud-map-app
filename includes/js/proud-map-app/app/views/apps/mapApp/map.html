@@ -12,7 +12,13 @@
 		<a href="#" id="details-close"><i class="fa fa-times-circle"></i><!--<span class="element-invisible">Close</span>--></a>
 		<div>
 
-		<!-- seeclickfix -->
+			<!-- foursquare -->
+			<div class="col-xs-12" ng-if="details.type == 'wordpress'">
+				<h3>{{details.title}} <small></small></h3>
+				<p ng-bind-html="details.content.rendered"></p>
+			</div>
+
+			<!-- seeclickfix -->
 			<div ng-if="seeclickfix">
 				<h3>{{seeclickfix.title}} <small class="seeclickfix-status status-{{seeclickfix.status}}">{{seeclickfix.status}}</small></h3>
 				<p>
@@ -26,13 +32,12 @@
 			</div>
 
 			<!-- foursquare -->
-			<div class="col-xs-12" ng-if="!seeclickfix">
+			<div class="col-xs-12" ng-if="details.type == 'foursquare'">
 				<h3>{{details.name}} <small>{{details.categories[0].name}}</small></h3>
 			</div>
 
-
+			<!-- address -->
 			<div class="col-xs-12">
-
 				<div ng-if="details.location">
 					<p>
 					{{details.location.address}}<br/>

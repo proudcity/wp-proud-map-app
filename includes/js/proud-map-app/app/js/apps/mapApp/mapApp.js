@@ -92,24 +92,24 @@ angular.module('mapApp', [
       });
 
       $scope.$watch('proudMap', function(settings){
+        console.log(settings);
 
         if (_.has(settings, 'lat')) {
 
           var layers = document.getElementById('menu-ui');
-          var mapLayers = [];
+          var mapLayers = {};
 
           // @todo: get from $rootSCope
           L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiYXRyb3NzZGlnaXRhbCIsImEiOiI1cVUxbUxVIn0.SqKOVeohLfY0vfShalVDUw';
 
           var map = new L.mapbox.Map('map', 'albatrossdigital.lpkdpcjb', {
-              center: new L.LatLng(config.lat, config.lng),
+              center: new L.LatLng(settings.lat, settings.lng),
               zoom: 15,
               scrollWheelZoom: false,
               zoomControl: false
           });
           new L.Control.Zoom({ position: 'topright' }).addTo(map);
           window.map = map;
-alert('as');
 
           var activeLayers = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.layers');
           activeLayers = (typeof activeLayers == 'string') ? activeLayers.split("\n") : activeLayers;
@@ -137,16 +137,16 @@ alert('as');
                   e.stopPropagation();
 
                   for (var key in mapLayers) {
-                    map.setLayoutProperty(mapLayers[key], 'visibility', 'none');
+                    map.removeLayer(mapLayers[key]);
                   }
                   $('#menu-ui a.active').removeClass('active');
                   
                   this.className = 'active';
 
-                  var key = $.inArray( query, mapLayers );
-                  if ( key != -1) {
-                    return map.setLayoutProperty(mapLayers[key], 'visibility', 'visible');
-                  }
+                  //var key = $.inArray( query, mapLayers );
+                  //if ( key != -1) {
+                  //  return map.setLayoutProperty(mapLayers[key], 'visibility', 'visible');
+                  //}
 
                   // @todo: attribution
 
@@ -225,22 +225,27 @@ alert('as');
                 });
               }
               console.log(geojson);
-              map.addSource(query, {
-                type: 'geojson',
-                data: geojson,
-              });
               
-              layer = L.mapbox.featureLayer().setGeoJSON(geojson);
-              layer.on('mouseover', function(e) {
+              mapLayers[query] = L.mapbox.featureLayer().setGeoJSON(geojson);
+              mapLayers[query].on('mouseover', function(e) {
                 e.layer.openPopup();
               }).on('mouseout', function(e) {
                 e.layer.closePopup();
               }).on('click', function(e) {
-                 var props = e.layer.feature.properties.details;
-                  $mapWrap.addClass("details-open");
-                  $scope.details = props;
+                var props = e.layer.feature.properties;
+                props.type = 'wordpress';
+                props.location = props;
+                props.location.postalCode = props.zip;
+                props.googleLocal = {
+                  hours: props.hours
+                }
+                console.log(props);
+                $mapWrap.addClass("details-open");
+                $scope.details = props;
+                $scope.$apply();
               });
-              mapLayers.push(query);
+
+              mapLayers[query].addTo(map);
 
             });
           }
@@ -293,6 +298,7 @@ alert('as');
                   e.layer.closePopup();
                 }).on('click', function(e) {
                   var props = e.layer.feature.properties.details;
+                  props.type = 'foursquare';
                   $mapWrap.addClass("details-open");
                   //if (e.layer.feature.properties.url != undefined) {
                   //  window.location = props.url;
