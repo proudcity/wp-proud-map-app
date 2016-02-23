@@ -92,6 +92,6 @@ angular.module('mapAppParent', [
   return {
     restrict: 'A',
     controller: "MapControl",
-    template: '<div foursquare-map="settings" />'
+    template: '<div proud-map="settings" />'
   }
 })
