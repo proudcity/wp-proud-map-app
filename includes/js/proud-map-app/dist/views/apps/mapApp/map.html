@@ -14,7 +14,7 @@
 
 			<!-- foursquare -->
 			<div class="col-xs-12" ng-if="details.type == 'wordpress'">
-				<h3>{{details.title}} <small></small></h3>
+				<h3><span ng-bind-html="details.title"></span> <small></small></h3>
 				<p ng-bind-html="details.content.rendered"></p>
 			</div>
 
