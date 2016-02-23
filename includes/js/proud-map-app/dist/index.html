@@ -11,9 +11,21 @@
     <meta name="description" ng-attr-content="{{metaDescription()}}" />
     <meta name="keywords" ng-attr-content="{{metaKeywords()}}" />
     <title ng-bind="pageTitle();">FILLME!</title>
-    <link rel="stylesheet" href="css/libraries.min.css">
-    <link rel="stylesheet" href="cs/maps.css">
-    <link rel="stylesheet" href="css/app.min.css">
+    <!-- build:css css/libraries.min.css -->
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/leaflet.locatecontrol/dist/L.Control.Locate.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css cs/maps.css -->
+    <link rel="stylesheet" href="bower_components/mapbox.js/mapbox.css">
+    <link rel="stylesheet" href="bower_components/leaflet.locatecontrol/dist/L.Control.Locate.mapbox.css">
+    <!-- endbuild -->
+    <!-- build:css css/app.min.css -->
+    <link rel="stylesheet" href="css/app.css">
+    <!-- endbuild -->
     <script type="text/javascript">
         var Proud = {};
     </script>
@@ -30,10 +42,30 @@
     <base href="./">
     <div in-view="mapCompile = mapCompile || '%3Cdiv%20map-parent%3E%3C%2Fdiv%3E'" lazy-compile="mapCompile" lazy-decode="true"></div>
             
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/angular-core.js"></script>
-    <script src="js/angular-lazy.min.js"></script>
-    <script src="js/maps.js"></script>
-    <script src="js/app.min.js"></script>
+    <!-- build:js js/bootstrap.min.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/angular-core.js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/angular-lazy.min.js -->
+    <script src="bower_components/angular-inview/angular-inview.js"></script>
+    <script src="bower_components/angular-lazycompile/src/angular-lazycompile.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/maps.js -->
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="bower_components/mapbox.js/mapbox.standalone.js"></script>
+    <script src="bower_components/leaflet.locatecontrol/src/L.Control.Locate.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/app.min.js -->
+    <script src="js/utilities/scrollTo.js"></script>
+    <script src="js/app.js"></script>
+    <!-- mapApp -->
+    <script src="js/apps/mapApp/mapApp.js"></script>
+    <!-- endbuild -->
   </body>
 </html>

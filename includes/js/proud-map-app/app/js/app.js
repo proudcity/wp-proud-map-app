@@ -18,9 +18,8 @@ angular.module('mapAppParent', [
       $rootScope.mapboxAccessToken = 'pk.eyJ1IjoiYWxiYXRyb3NzZGlnaXRhbCIsImEiOiI1cVUxbUxVIn0.SqKOVeohLfY0vfShalVDUw';
       $rootScope.mapboxMap = 'albatrossdigital.lpkdpcjb';
 
-      $rootScope.proudcityApi='http://my.getproudcity.com/api/proudcity/';
-      $rootScope.proxyUrl = $rootScope.proudcityApi + 'proxy';
-      $rootScope.paymentUrl = $rootScope.proudcityApi + 'invoice-example';
+      $rootScope.wpAapiUrl = _.get(Proud, 'settings.proud_map_app.global.api_path') || 'https://example.proudcity.com/wp-json/wp/v2/';
+
 		}
 	]
 )
@@ -53,22 +52,28 @@ angular.module('mapAppParent', [
         city: $state.params.city
       }
     }
+    console.log(Proud);
 
+    $rootScope.appId = $rootScope.appId != undefined ? $rootScope.appId : 'proud_map_app-1391006';
 
     $scope.settings = {
-      color: {
-        main: '#000',
-        secondary: '#000',
-        highlight: '#2196F3'
+      lat: _.get(Proud, 'settings.global.location.lat') || '',
+      lat: _.get(Proud, 'settings.global.location.lat') || '',
+      city: _.get(Proud, 'settings.global.location.city') || '',
+      state: _.get(Proud, 'settings.global.location.state') || '',
+      wordpress: {
+        apiUrl: _.get(Proud, 'settings.proud_map_app.global.api_path') || ''
       },
-      header: {
-        backgroundType: 'image',
-        backgroundImage: '',
-        backgroundColor: '',
-        searchColor: '#FFFFFF',
-        searchAlign: 'left'
+      foursquare: {
+        clientKey: '1CAZ5UW5UDQ2F1EDEHFOULURU4K3RBWWITBOONJ2XLXPD52V',
+        clientSecret: 'GA4DAN4KLI5UM0VJ4BAZAE4SEVLIR0BC5B4UKGNVR2VJXXWN',
+        apiUrl: 'https://api.foursquare.com/'
       }
-    }
+    };
+
+
+    console.log($rootScope.appId);
+
 
     //$http.get($rootScope.proudcityApi +'?state='+ $state.params.state +'&city='+ $state.params.city).success(function(data){
       // Proud options
@@ -82,16 +87,17 @@ angular.module('mapAppParent', [
       };
 
       $scope.settings = _.merge(data, $scope.settings);
+      console.log($scope.settings);
     //});
 
   }
 ])
 
-// Isotope social wall
+// Display map wall
 .directive('mapParent', function factory() {
   return {
     restrict: 'A',
     controller: "MapControl",
-    template: '<div foursquare-map="settings" />'
+    template: '<div proud-map="settings" />'
   }
 })
