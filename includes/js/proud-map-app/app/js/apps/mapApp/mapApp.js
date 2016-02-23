@@ -36,13 +36,13 @@ angular.module('mapApp', [
 // )
 
 
-.directive('foursquareMap', function factory($window, $browser, $http, $location, $rootScope) {
+.directive('proudMap', function factory($window, $browser, $http, $location, $rootScope) {
   return {
     restrict: 'A',
     templateUrl: 'views/apps/mapApp/map.html',
     replace: false,
     scope: {
-      foursquareMap: '='
+      proudMap: '='
     },
     link: function($scope, $element, $attrs) {
       $scope.details = {};
@@ -63,7 +63,7 @@ angular.module('mapApp', [
       $mapWrap.click(function(e) {
         if(!$rootScope.fullScreen) {
           $scope.toggleFullScreen(e);
-          window.map.invalidateSize();
+          //window.map.invalidateSize();
         }
       });
       // Listen for esc key
@@ -91,17 +91,12 @@ angular.module('mapApp', [
         return false;
       });
 
-      $scope.$watch('foursquareMap', function(settings){
+      $scope.$watch('proudMap', function(settings){
 
         if (_.has(settings, 'lat')) {
-          var config = {
-            clientKey: '1CAZ5UW5UDQ2F1EDEHFOULURU4K3RBWWITBOONJ2XLXPD52V',
-            clientSecret: 'GA4DAN4KLI5UM0VJ4BAZAE4SEVLIR0BC5B4UKGNVR2VJXXWN',
-            authUrl: 'https://foursquare.com/',
-            apiUrl: 'https://api.foursquare.com/',
-            lat: settings.lat,
-            lng: settings.lng
-          };
+
+          var layers = document.getElementById('menu-ui');
+          var mapLayers = [];
 
           // @todo: get from $rootSCope
           L.mapbox.accessToken = 'pk.eyJ1IjoiYWxiYXRyb3NzZGlnaXRhbCIsImEiOiI1cVUxbUxVIn0.SqKOVeohLfY0vfShalVDUw';
@@ -114,53 +109,21 @@ angular.module('mapApp', [
           });
           new L.Control.Zoom({ position: 'topright' }).addTo(map);
           window.map = map;
+alert('as');
 
-
-          var attr;
-          //var activeLayer;
-          var gridControl;
-
-          //if (settings.helm_civic_map.type == 'full') {  // @todo
-            var layersInit = false, // 
-                layers = document.getElementById('menu-ui'),
-                mapLayers = {};
-
-            var foursquareDefault = true;
-            if (config.lat == 44.5667) {
-              addLayer('Public Transit', 'mbtiles', 14, {url: settings.helm_civic_map.transportation, 'attribution': '<a href="ftp://ftp.ci.corvallis.or.us/pw/Transportation/GoogleTransitFeed/">City of Corvallis GTFS</a>'}, true);
-              foursquareDefault = false;
-            }
-
-
-            //for (var i=0; i<params.query.length; i++) {
-            //  addFoursquareLayer(params.query[i]);
-            //}
-
-            foursquareDefault = true;
-            addLayer('All Services', 'foursquare', 13, {query: ['government','school','police station','fire station','library','post office','park']}, foursquareDefault); 
-            addLayer('Schools', 'foursquare', 13, {query: 'school'}); 
-            addLayer('Police', 'foursquare', 12, {query: 'police station'});
-            addLayer('Fire', 'foursquare', 12, {query: 'fire station'}); 
-            addLayer('Libraries', 'foursquare', 13, {query: 'library'}); 
-            addLayer('Post Offices', 'foursquare', 13, {query: 'post office'}); 
-            addLayer('Parks', 'foursquare', 14, {query: 'park'});
-            addLayer('Reported Issues', 'seeclickfix', 14, {query: 'seeclickfix'});
-            layersInit = true;
-
-            //addLayer('Restaurants', 'foursquare', 15, {query: 'restaurant'});
-            //addLayer('Entertainment', 'foursquare', 14, {query: 'entertainment'});
-            //addLayer('Flu Shots', 'foursquare', 13, {query: 'flu'}, foursquareDefault);
-            //addLayer('Events', 'drupal', 14, {url: settings.helm_civic_map.drupal_events});
-          //}
-          // @todo: http://www.opencyclemap.org/
-          // @todo: hiking map
+          var activeLayers = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.layers');
+          activeLayers = (typeof activeLayers == 'string') ? activeLayers.split("\n") : activeLayers;
+          var i = 0;
+          $.each( activeLayers, function( key, value ) {
+            var layer = value.split(':');
+            addLayer(layer[2], layer[0], null, layer[1], i==0);
+            i++;
+            console.log(layer);
+          });            
 
           
-          function addLayer(name, type, zoom, params, active) {
+          function addLayer(name, type, zoom, query, active) {
               active = active == undefined ? false : active;
-              //layer
-              //  .setZIndex(zIndex)
-              //  .addTo(map);
 
               // Create a simple layer switcher that
               // toggles layers on and off.
@@ -174,32 +137,38 @@ angular.module('mapApp', [
                   e.stopPropagation();
 
                   for (var key in mapLayers) {
-                    map.removeLayer(mapLayers[key]);
+                    map.setLayoutProperty(mapLayers[key], 'visibility', 'none');
                   }
-
-                  //window.activeLayer = L.layerGroup().addTo(map);
-                  if (attr != undefined) {
-                    //map.removeControl(attr);
-                  }
-                  if (gridControl != undefined) {
-                    map.removeControl(gridControl);
-                    gridControl = undefined;
-                  }
-                  //attr = L.control.attribution({prefix: false}).addTo('map');
-                  map.setView(new L.LatLng(config.lat, config.lng), zoom, {animate: true});
                   $('#menu-ui a.active').removeClass('active');
-                  map.invalidateSize();
+                  
                   this.className = 'active';
 
+                  var key = $.inArray( query, mapLayers );
+                  if ( key != -1) {
+                    return map.setLayoutProperty(mapLayers[key], 'visibility', 'visible');
+                  }
+
+                  // @todo: attribution
+
+                  //map.setView(new L.LatLng(settings.lat, settings.lng), zoom, {animate: true});
+                  
+                  //map.invalidateSize();
+                  
+
                   switch(type) {
+                    case 'wordpress':
+                    console.log(query);
+                      addWordpressLayer(query);
+                      //attr.addAttribution('This website');
+                      break;
                     case 'foursquare':
-                      if (Array.isArray(params.query)) {
-                        for (var i=0; i<params.query.length; i++) {
-                          addFoursquareLayer(params.query[i], 'large');
+                      if (Array.isArray(query)) {
+                        for (var i=0; i<query.length; i++) {
+                          addFoursquareLayer(query[i], 'large');
                         }
                       }
                       else {
-                        addFoursquareLayer(params.query, 'large');
+                        addFoursquareLayer(query, 'large');
                       }
                       //attr.addAttribution('<a href="http://foursquare.com">Foursquare</a>');
                       map.attributionControl.setPrefix('Data from <a href="http://foursquare.com">Foursquare</a>');
@@ -210,23 +179,13 @@ angular.module('mapApp', [
                       addSeeClickFixLayer('acknowledged');
                       map.attributionControl.setPrefix('Data from <a href="http://seeclickfix.com">SeeClickFix</a>');
                       break;
-                    case 'drupal':
-                      addFoursquareLayer(params.query);
-                      map.attributionControl.setPrefix('Data from <a href="/">this website</a>');
-                      //attr.addAttribution('This website');
-                      break;
-                    case 'mbtiles':
-                      tile = L.mapbox.tileLayer(params.url).addTo(window.activeLayer);
-                      grid = L.mapbox.gridLayer(params.url).addTo(window.activeLayer);
-                      gridControl = L.mapbox.gridControl(grid, {follow: true}).addTo(map);
-
-                      //attr.addAttribution(params.attribution);
                   }
 
+                  //@todo:
                   // If actual click, then toggle filters
-                  if(layersInit) {
-                    $scope.toggleFilter();
-                  }
+                  //if(layersInit) {
+                  //  $scope.toggleFilter();
+                  //}
             
               };
               if (active) {
@@ -235,6 +194,55 @@ angular.module('mapApp', [
 
 
               layers.appendChild(link);
+          }
+          
+          function addWordpressLayer(query) {
+            console.log(settings.wordpress.apiUrl);
+            var url = settings.wordpress.apiUrl + '?direction=ASC&filter%5Blocation-taxonomy%5D='+ query +'&sort=date';
+            $.getJSON(url, {}, function(data) {
+              console.log(data);
+              var geojson = {
+                type: 'FeatureCollection',
+                features: []
+              };
+              for ( var i=0; i < data.length; i++ ) {
+                var item = data[i];
+                var properties = item.meta;
+                var marker = iconColor(query);
+                $.extend(properties, marker, {
+                  title: item.title.rendered,
+                  //'marker-size': size,
+                  'url': item.meta.website != undefined ? item.meta.website : null,
+                  'details': item.content.rendered,
+                });
+                geojson.features.push({
+                  type: 'Feature',
+                  properties: properties,
+                  geometry: {
+                    type: 'Point',
+                    coordinates: [item.meta.lng, item.meta.lat]
+                  }
+                });
+              }
+              console.log(geojson);
+              map.addSource(query, {
+                type: 'geojson',
+                data: geojson,
+              });
+              
+              layer = L.mapbox.featureLayer().setGeoJSON(geojson);
+              layer.on('mouseover', function(e) {
+                e.layer.openPopup();
+              }).on('mouseout', function(e) {
+                e.layer.closePopup();
+              }).on('click', function(e) {
+                 var props = e.layer.feature.properties.details;
+                  $mapWrap.addClass("details-open");
+                  $scope.details = props;
+              });
+              mapLayers.push(query);
+
+            });
           }
 
           function addFoursquareLayer(query, size) {
@@ -245,7 +253,7 @@ angular.module('mapApp', [
             //}
             //else {
 
-              var url = config.apiUrl + 'v2/venues/explore?ll=' + config.lat + ',' + config.lng + '&query=' + query + '&client_id=' + config.clientKey + '&client_secret=' + config.clientSecret +'&v=20140601';
+              var url = settings.foursquare.apiUrl + 'v2/venues/explore?ll=' + settings.lat + ',' + settings.lng + '&query=' + query + '&client_id=' + settings.foursquare.clientKey + '&client_secret=' + settings.foursquare.clientSecret +'&v=20140601';
               $.getJSON(url, {}, function(data) {
                 var venues = data['response']['groups'][0]['items'];
                 
@@ -259,39 +267,14 @@ angular.module('mapApp', [
                 /* Place marker for each venue. */
                 for (var i = 0; i < venues.length; i++) {
                   var category = venues[i]['venue']['categories'][0]['name'];
-                  var color = '#997C61';
-                  var icon = 'star';
-                  if (category.indexOf('Library') !=-1) {
-                    icon = 'library';
-                    color = '#A973A9';
-                  }
-                  else if (category.indexOf('School') !=-1 || category.indexOf('College') !=-1 || category.indexOf('University') !=-1) {
-                    icon = 'college';
-                    color = '#ED9356';
-                  }
-                  else if (category.indexOf('Police') !=-1) {
-                    icon = 'police';
-                    color = '#456D9C';
-                  }
-                  else if (category.indexOf('Fire') !=-1) {
-                    icon = 'fire-station';
-                    color = '#E76C6D';
-                  }
-                  else if (category.indexOf('Post') !=-1) {
-                    icon = 'post';
-                    color = '#5A97C4';
-                  }
-                  else if (query == 'park' || category.indexOf('Park') !=-1) {
-                    icon = 'park2';
-                    color = '#9BBF6A';
-                  }
+                  var marker = iconColor(category);
                   geojson.features.push({
                     type: 'Feature',
                     properties: {
                       title: venues[i]['venue']['name'],
-                      'marker-color': color,
-                      'marker-size': size,
-                      'marker-symbol': icon,
+                      'marker-color': marker['marker-color'],
+                      //'marker-size': size,
+                      'marker-symbol': marker['marker-icon'],
                       'url': venues[i]['venue']['url'] != undefined ? venues[i]['venue']['url'] : undefined,
                       'details': venues[i]['venue']
                     },
@@ -301,37 +284,6 @@ angular.module('mapApp', [
                     }
                   })
 
-                  /* Build icon for each icon */
-                  /*var fsqIcon = venues[i]['venue']['categories'][0]['icon'];
-                  var leafletIcon = L.Icon.extend({
-                    options: {
-                      iconUrl: fsqIcon['prefix'] + '32' + fsqIcon['suffix'],
-                      shadowUrl: null,
-                      iconSize: new L.Point(32,32),
-                      iconAnchor: new L.Point(16, 41),
-                      popupAnchor: new L.Point(0, -51)
-                    }
-                  });
-                  var icon = new leafletIcon();
-                  var popup = '<h4>' + venues[i]['venue']['name'] + '</h4>' + venues[i]['venue']['categories'][0].name;
-                  if (venues[i]['venue']['contact'].formattedPhone != undefined) {
-                    popup += '<br/>' + venues[i]['venue']['contact'].formattedPhone;
-                  }
-                  
-                  var marker = new L.Marker(latLng, {icon: icon})
-                    .bindPopup(popup, { closeButton: false })
-                    .on('mouseover', function(e) { this.openPopup(); })
-                    .on('mouseout', function(e) { this.closePopup(); })
-                    .on('click', function(e) {
-                      console.log(venues);
-                      console.log(e);
-                      console.log(venues[i]['venue']);
-                      if (venues[i]['venue']['url'] != undefined) {
-                        window.open(url,'_blank');
-                      }
-                    });
-                  console.log(marker);
-                  activeLayer.addLayer(marker);*/
                 } //for
 
                 mapLayers[query] = L.mapbox.featureLayer().setGeoJSON(geojson);
@@ -405,8 +357,8 @@ angular.module('mapApp', [
 
             /* Query Foursquare API for venue recommendations near the current location. */
             var url = 'https://seeclickfix.com/api/v2/issues?&callback=?&' + $.param({
-              lat: config.lat,
-              lng: config.lng,
+              lat: settings.lat,
+              lng: settings.lng,
               zoom: map.getZoom() -1,
               per_page: 50,
               sort: 'created_at',
@@ -464,6 +416,41 @@ angular.module('mapApp', [
 
             })
           }
+
+          function iconColor(category) {
+            var color = '#997C61';
+            var icon = 'marker';
+            category = category.toLowerCase();
+            if (category.indexOf('library') !=-1) {
+              icon = 'library';
+              color = '#A973A9';
+            }
+            else if (category.indexOf('school') !=-1 || category.indexOf('college') !=-1 || category.indexOf('university') !=-1) {
+              icon = 'college';
+              color = '#ED9356';
+            }
+            else if (category.indexOf('police') !=-1) {
+              icon = 'police';
+              color = '#456D9C';
+            }
+            else if (category.indexOf('fire') !=-1) {
+              icon = 'fire-station';
+              color = '#E76C6D';
+            }
+            else if (category.indexOf('post') !=-1) {
+              icon = 'post';
+              color = '#5A97C4';
+            }
+            else if (category.indexOf('park') != -1 || category.indexOf('field') != -1) {
+              icon = 'park';
+              color = '#9BBF6A';
+            }
+            return {
+              'marker-symbol': icon,
+              'marker-color': color
+            };
+          }
+          
 
         }
       });
