@@ -208,19 +208,21 @@ angular.module('mapApp', [
               for ( var i=0; i < data.length; i++ ) {
                 var item = data[i];
                 var properties = item.meta;
-                var marker = iconColor(query);
-                $.extend(properties, marker, {
-                  title: item.title.rendered,
-                  //'marker-size': size,
-                });
-                geojson.features.push({
-                  type: 'Feature',
-                  properties: properties,
-                  geometry: {
-                    type: 'Point',
-                    coordinates: [properties.lng, properties.lat]
-                  }
-                });
+                if (properties.lng != undefined && properties.lat != undefined) {
+                  var marker = iconColor(query);
+                  $.extend(properties, marker, {
+                    title: item.title.rendered,
+                    //'marker-size': size,
+                  });
+                  geojson.features.push({
+                    type: 'Feature',
+                    properties: properties,
+                    geometry: {
+                      type: 'Point',
+                      coordinates: [properties.lng, properties.lat]
+                    }
+                  });
+                }
               }
               console.log(geojson);
               
