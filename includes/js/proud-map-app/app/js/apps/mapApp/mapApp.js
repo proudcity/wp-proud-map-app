@@ -212,8 +212,6 @@ angular.module('mapApp', [
                 $.extend(properties, marker, {
                   title: item.title.rendered,
                   //'marker-size': size,
-                  'url': item.meta.website != undefined ? item.meta.website : null,
-                  'details': item.content.rendered,
                 });
                 geojson.features.push({
                   type: 'Feature',
