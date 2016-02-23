@@ -218,7 +218,7 @@ angular.module('mapApp', [
                   properties: properties,
                   geometry: {
                     type: 'Point',
-                    coordinates: [item.meta.lng, item.meta.lat]
+                    coordinates: [properties.lng, properties.lat]
                   }
                 });
               }
