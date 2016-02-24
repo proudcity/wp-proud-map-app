@@ -53,7 +53,6 @@ angular.module('mapAppParent', [
         city: $state.params.city
       }
     }
-    console.log(Proud);
 
     $rootScope.appId = $rootScope.appId != undefined ? $rootScope.appId : 'proud_map_app-1391006';
 
@@ -73,7 +72,6 @@ angular.module('mapAppParent', [
     };
 
 
-    console.log($rootScope.appId);
 
 /*
     //$http.get($rootScope.proudcityApi +'?state='+ $state.params.state +'&city='+ $state.params.city).success(function(data){

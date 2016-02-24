@@ -206,7 +206,7 @@ angular.module('mapApp', [
                   var marker = iconColor(properties.icon);
                   $.extend(properties, marker, {
                     title: item.title.rendered,
-                    //'marker-size': size,
+                    'marker-size': 'large',
                   });
                   geojson.features.push({
                     type: 'Feature',
