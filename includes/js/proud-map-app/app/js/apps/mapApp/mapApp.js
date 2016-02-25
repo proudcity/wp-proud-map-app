@@ -109,7 +109,23 @@ angular.module('mapApp', [
           new L.Control.Zoom({ position: 'topright' }).addTo(map);
           window.map = map;
 
-          var activeLayers = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.layers');
+          var source = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.source');
+          if (source == 'wordpress') {
+            var activeLayers = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.wordpress_layers');
+          }
+          else { // defaults to Foursquare
+            var activeLayers = [
+              'foursquare:school,police station,fire station,library,post office,park:All',
+              'foursquare:school:Schools',
+              'foursquare:police station:Police',
+              'foursquare:fire station:Fire',
+              'foursquare:library:Libraries',
+              'foursquare:post office:Post Offices',
+              'foursquare:park:Parks',
+              'seeclickfix:seeclickfix:Reported Issues'
+            ];
+          }
+
           activeLayers = (typeof activeLayers == 'string') ? activeLayers.split("\n") : activeLayers;
           var i = 0;
           $.each( activeLayers, function( key, value ) {
@@ -158,7 +174,8 @@ angular.module('mapApp', [
                       //attr.addAttribution('This website');
                       break;
                     case 'foursquare':
-                      if (Array.isArray(query)) {
+                      if (query.indexOf(',') != -1) {
+                        query = query.split(',');
                         for (var i=0; i<query.length; i++) {
                           addFoursquareLayer(query[i], 'large');
                         }
@@ -271,7 +288,7 @@ angular.module('mapApp', [
                       title: venues[i]['venue']['name'],
                       'marker-color': marker['marker-color'],
                       //'marker-size': size,
-                      'marker-symbol': marker['marker-icon'],
+                      'marker-symbol': marker['marker-symbol'],
                       'url': venues[i]['venue']['url'] != undefined ? venues[i]['venue']['url'] : undefined,
                       'details': venues[i]['venue']
                     },

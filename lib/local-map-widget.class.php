@@ -21,6 +21,19 @@ class LocalMap extends Core\ProudWidget {
   }
 
   function initialize() {
+    $options = array(
+      'foursquare' => 'Foursquare',
+      'wordpress' => 'Wordpress',
+    );
+    $this->settings = [
+      'source' => [
+        '#title' => 'Source',
+        '#type' => 'radios',
+        '#options' => $options,
+        '#default_value' => 'foursquare',
+        '#to_js_settings' => true
+      ],
+    ];
     // Get answers topics
     $topics = get_categories( [
       'taxonomy' => 'location-taxonomy',
@@ -33,14 +46,23 @@ class LocalMap extends Core\ProudWidget {
         $options['wordpress:' . $topic->slug . ':' . $topic->name] = $topic->name;
       }
     }
-    $this->settings = [
-      'layers' => [
+    $this->settings += [
+      'wordpress_layers' => [
         '#title' => 'Layers',
         '#type' => 'checkboxes',
         '#options' => $options,
         '#default_value' => ['all'],
         '#description' => 'Click all layers you would like to appear',
-        '#to_js_settings' => true
+        '#to_js_settings' => true,
+        '#states' => [
+          'visible' => [
+            'source' => [
+              'operator' => '==',
+              'value' => ['wordpress'],
+              'glue' => '||'
+            ],
+          ],
+        ],
       ],
     ];
     parent::initialize();
