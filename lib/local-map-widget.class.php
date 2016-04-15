@@ -114,7 +114,7 @@ class LocalMap extends Core\ProudWidget {
     
     ?>
     <div id="<?php print $this->id ?>">
-      <div ng-init="$root.appId = '<?php print $this->id; ?>'" in-view="mapCompile = mapCompile || '<?php print $lazy_html; ?>'" lazy-compile="mapCompile" lazy-decode="true"></div>
+      <div ng-init="$root.appId = '<?php print $this->id; ?>'" in-view="mapCompile = mapCompile || '<?php print $lazy_html; ?>'" lazy-compile="mapCompile" lazy-decode="true" lazy-timeout="'<?php print $lazy_html; ?>'" lazy-timeout-dur="2000"></div>
     </div>
     <?php
   }

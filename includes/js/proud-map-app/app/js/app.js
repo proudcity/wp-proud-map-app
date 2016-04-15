@@ -71,8 +71,6 @@ angular.module('mapAppParent', [
       }
     };
 
-
-
 /*
     //$http.get($rootScope.proudcityApi +'?state='+ $state.params.state +'&city='+ $state.params.city).success(function(data){
       // Proud options
