@@ -309,6 +309,8 @@ angular.module('mapApp', [
                   var props = e.layer.feature.properties.details;
                   props.type = 'foursquare';
                   $mapWrap.addClass("details-open");
+                  // Hide see click fix
+                  $scope.seeclickfix = false;
                   //if (e.layer.feature.properties.url != undefined) {
                   //  window.location = props.url;
                   //}d
@@ -420,6 +422,10 @@ angular.module('mapApp', [
                 //  window.location = props.url;
                 //}d
                 //else {
+                  // Hide see foursquare details
+                  $scope.details = {
+                    type: 'seeclickfix'
+                  };
                   $scope.seeclickfix = props;
                   $scope.$apply();
                   //https://developers.google.com/places/webservice/search?hl=en
