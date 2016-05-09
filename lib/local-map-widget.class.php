@@ -75,6 +75,7 @@ class LocalMap extends Core\ProudWidget {
           15 => 15,
           16 => 16,
         ),
+        '#description' => 'A higher zoom level is more zoomed in.',
         '#default_value' => 15,
         '#to_js_settings' => true
       ],
