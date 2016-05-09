@@ -102,7 +102,7 @@ angular.module('mapApp', [
 
           var map = new L.mapbox.Map('map', 'albatrossdigital.lpkdpcjb', {
               center: new L.LatLng(settings.lat, settings.lng),
-              zoom: 15,
+              zoom: _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.zoom') || 15,
               scrollWheelZoom: false,
               zoomControl: false
           });
@@ -111,7 +111,7 @@ angular.module('mapApp', [
 
           var source = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.source');
           if (source == 'wordpress') {
-            var activeLayers = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.wordpress_layers');
+            var activeLayers = _.get(Proud, 'settings.proud_map_app.instances.' + $rootScope.appId + '.wordpress_layers') || [];
           }
           else { // defaults to Foursquare
             var activeLayers = [

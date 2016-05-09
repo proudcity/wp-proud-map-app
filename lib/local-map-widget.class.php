@@ -65,6 +65,20 @@ class LocalMap extends Core\ProudWidget {
         ],
       ],
     ];
+    $this->settings += [
+      'zoom' => [
+        '#title' => 'Default zoom level',
+        '#type' => 'select',
+        '#options' => array(
+          13 => 13,
+          14 => 14,
+          15 => 15,
+          16 => 16,
+        ),
+        '#default_value' => 15,
+        '#to_js_settings' => true
+      ],
+    ];
     parent::initialize();
   }
 
