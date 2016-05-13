@@ -210,7 +210,7 @@ angular.module('mapApp', [
           }
           
           function addWordpressLayer(query) {
-            var url = settings.wordpress.apiUrl + '?direction=ASC&filter%5Blocation-taxonomy%5D='+ query +'&sort=date';
+            var url = settings.wordpress.apiUrl + '?direction=ASC&filter%5Blocation-taxonomy%5D='+ query +'&sort=date&per_page=100';
             $.getJSON(url, {}, function(data) {
               var geojson = {
                 type: 'FeatureCollection',
