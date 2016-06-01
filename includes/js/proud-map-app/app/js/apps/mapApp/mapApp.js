@@ -219,6 +219,7 @@ angular.module('mapApp', [
               for ( var i=0; i < data.length; i++ ) {
                 var item = data[i];
                 var properties = item.meta;
+                properties.content = item.content ? item.content.rendered : '';
                 if (properties.lng != undefined && properties.lat != undefined) {
                   var marker = iconColor(properties.icon);
                   $.extend(properties, marker, {
