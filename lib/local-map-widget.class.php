@@ -37,6 +37,7 @@ class LocalMap extends Core\ProudWidget {
     // Get answers topics
     $topics = get_categories( [
       'taxonomy' => 'location-taxonomy',
+      'hide_empty' => false,
       //'orderby' => 'name',
       'parent' => 0
     ] );
