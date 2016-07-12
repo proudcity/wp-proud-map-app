@@ -71,6 +71,8 @@ class LocalMap extends Core\ProudWidget {
         '#title' => 'Default zoom level',
         '#type' => 'select',
         '#options' => array(
+          11 => 11,
+          12 => 12,
           13 => 13,
           14 => 14,
           15 => 15,
