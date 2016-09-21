@@ -220,6 +220,7 @@ angular.module('mapApp', [
                 var item = data[i];
                 var properties = item.meta;
                 properties.content = item.content ? item.content.rendered : '';
+                properties.featured_media = item.featured_media;
                 if (properties.lng != undefined && properties.lat != undefined) {
                   var marker = iconColor(properties.icon);
                   $.extend(properties, marker, {
@@ -253,6 +254,16 @@ angular.module('mapApp', [
                 $mapWrap.addClass("details-open");
                 $scope.details = props;
                 $scope.$apply();
+
+                // Grab the wp featured image
+                if (props.featured_media) {
+                  var url = settings.wordpress.apiUrl + '../media/'+ props.featured_media;
+                  $.getJSON(url, {}, function(data) {
+                    $scope.details.featured_media = data;
+                    $scope.$apply();
+                  });
+                }
+
               });
 
               mapLayers[query].addTo(map);

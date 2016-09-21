@@ -12,10 +12,18 @@
 		<a href="#" id="details-close"><i class="fa fa-times-circle"></i><!--<span class="element-invisible">Close</span>--></a>
 		<div>
 
-			<!-- foursquare -->
+			<!-- wordpress post -->
 			<div class="col-xs-12" ng-if="details.type == 'wordpress'">
 				<h3><span ng-bind-html="details.title"></span> <small></small></h3>
-				<p ng-bind-html="details.content.rendered"></p>
+				<p ng-if="details.featured_media.id">
+					<img ng-src="{{details.featured_media.media_details.sizes.medium.source_url}}" alt="{{details.featured_media.alt_text}}" style="max-height:300px;" />
+				</p>
+				<p>
+					<span ng-if="details.email"><a ng-href="mailto:{{details.email}}"><i class="fa fa-fw fa-phone"></i>{{details.phone}}</a><br/></span>
+					<span ng-if="details.phone"><a ng-href="tel:{{details.phone}}"><i class="fa fa-fw fa-envelope-o"></i>{{details.email}}</a><br/></span>
+					<span ng-if="details.website"><a ng-href="{{details.website}}" target=_"blank"><i class="fa fa-fw fa-external-link"></i>Visit website</a><br/></span>
+				</p>
+				<p ng-if="details.hours" style="white-space: pre-wrap;">{{details.hours}}</p>
 			</div>
 
 			<!-- seeclickfix -->
