@@ -474,6 +474,10 @@ angular.module('mapApp', [
               icon = 'post';
               color = '#5A97C4';
             }
+            else if (category.indexOf('parking') !=-1) {
+              icon = 'parking';
+              color = '#4DC3FF';
+            }
             else if (category.indexOf('park') != -1 || category.indexOf('field') != -1 || category.indexOf('market') != -1 ) {
               icon = 'park';
               color = '#9BBF6A';
