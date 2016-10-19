@@ -474,7 +474,7 @@ angular.module('mapApp', [
               icon = 'post';
               color = '#5A97C4';
             }
-            else if (category.indexOf('parking') !=-1) {
+            else if (category.indexOf('parking') !=-1 || category.indexOf('charging') !=-1) {
               icon = 'parking';
               color = '#4DC3FF';
             }
