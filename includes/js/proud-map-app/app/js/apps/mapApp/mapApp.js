@@ -121,9 +121,11 @@ angular.module('mapApp', [
               'foursquare:fire station:Fire',
               'foursquare:library:Libraries',
               'foursquare:post office:Post Offices',
-              'foursquare:park:Parks',
-              'seeclickfix:seeclickfix:Reported Issues'
+              'foursquare:park:Parks'
             ];
+            if ( _.get(Proud, 'settings.proud_map_app.global.311_service') == 'seeclickfix') {
+              activeLayers.push('seeclickfix:seeclickfix:Reported Issues');
+            }
           }
 
           activeLayers = (typeof activeLayers == 'string') ? activeLayers.split("\n") : activeLayers;
