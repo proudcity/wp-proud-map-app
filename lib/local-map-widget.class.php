@@ -22,7 +22,7 @@ class LocalMap extends Core\ProudWidget {
 
   function initialize() {
     $options = array(
-      'foursquare' => 'Foursquare',
+      'google' => 'Google',
       'wordpress' => 'Wordpress',
     );
     $this->settings = [
@@ -30,7 +30,7 @@ class LocalMap extends Core\ProudWidget {
         '#title' => 'Source',
         '#type' => 'radios',
         '#options' => $options,
-        '#default_value' => 'foursquare',
+        '#default_value' => 'google',
         '#to_js_settings' => true
       ],
     ];
@@ -83,28 +83,31 @@ class LocalMap extends Core\ProudWidget {
         '#to_js_settings' => true
       ],
     ];
+    $this->settings += [
+      'map_has_overlay' => [
+        '#type' => 'checkbox',
+        '#title' => 'Render map with fullscreen options?',
+        '#description' => 'Checking this box will allow users to click on the map to enter full screen mode.',
+        '#return_value' => true,
+        '#label_above' => true,
+        '#replace_title' => 'Render map with fullscreen options?',
+        '#default_value' => true,
+        '#to_js_settings' => true,
+      ]
+    ];
     parent::initialize();
   }
 
   public function registerLibraries() {
     global $proudcore;
-    $proudcore::$libraries->addMaps();
+    // $proudcore::$libraries->addMaps();
     $proudcore::$libraries->addAngular(true, true, true);
   }
 
   public function enqueueFrontend() {
     $path = plugins_url('../includes/js/',__FILE__);
     // Running script
-    wp_enqueue_script('proud-map-app', $path . 'proud-map-app.js', array('angular'), false, true);
-    // Angular resources
-    $path .= 'proud-map-app/dist/';
-    // Not needed since moving map stuff to libraries
-    // wp_enqueue_script('proud-map-app-libraries', $path . 'js/libraries.min.js', array('angular'), false, true);
-    wp_enqueue_script('proud-map-app-app', $path . 'js/app.min.js', array('angular'), false, true);
-    wp_enqueue_script('proud-map-app-templates', $path . 'views/app.templates.js', array('proud-map-app-app'), false, true);
-    // CSS
-    wp_enqueue_style('proud-map-app-css', $path . 'css/app.min.css');
-
+    wp_enqueue_script('proud-map-app', $path . 'proud-map-app.js', array('proud-actions-app'), false, true);
     // Add global settings
     parent::addJsSettings(array(
      //'payment_key' => '', //@todo
@@ -124,15 +127,11 @@ class LocalMap extends Core\ProudWidget {
    * @param array $instance Saved values from database.
    */
   public function printWidget( $args, $instance ) {
-
-    // Compile html into a url encoded string
-    $lazy_html = rawurlencode(
-      '<div map-parent></div>'
-    );
-    
     ?>
     <div id="<?php print $this->id ?>">
-      <div ng-init="$root.appId = '<?php print $this->id; ?>'" in-view="mapCompile = mapCompile || '<?php print $lazy_html; ?>'" lazy-compile="mapCompile" lazy-decode="true" lazy-timeout="'<?php print $lazy_html; ?>'" lazy-timeout-dur="2000"></div>
+      <div ng-init="$root.appName = 'proud_map_app';$root.appId = '<?php print $this->id; ?>';">
+        <div map-parent></div>
+      </div>
     </div>
     <?php
   }
