@@ -110,7 +110,7 @@ class LocalMap extends Core\ProudWidget {
     wp_enqueue_script('proud-map-app', $path . 'proud-map-app.js', array('proud-actions-app'), false, true);
     // Add global settings
     parent::addJsSettings(array(
-     //'payment_key' => '', //@todo
+     '311_service' => get_option('311_service', 'link'),
      'api_path' => get_option( 'proudcity_api', '/wp-json/wp/v2/locations/' ),
      //'payment_url' => '',
      //'track_url' => '',
