@@ -86,11 +86,11 @@ class LocalMap extends Core\ProudWidget {
     $this->settings += [
       'map_has_overlay' => [
         '#type' => 'checkbox',
-        '#title' => __pcHelp('Enable main navigation dropdown'),
+        '#title' => __pcHelp('Render map with fullscreen options?' ),
         '#description' => 'Checking this box will allow users to click on the map to enter full screen mode.',
         '#return_value' => '1',
         '#label_above' => true,
-        '#replace_title' => __pcHelp( 'Enable the main navigation bar to use a dropdown' ),
+        '#replace_title' => __pcHelp( 'Render map with fullscreen options?' ),
         '#default_value' => false,
         '#to_js_settings' => true,
       ]
