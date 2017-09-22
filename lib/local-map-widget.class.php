@@ -91,7 +91,7 @@ class LocalMap extends Core\ProudWidget {
         '#return_value' => '1',
         '#label_above' => true,
         '#replace_title' => __pcHelp( 'Render map with fullscreen options?' ),
-        '#default_value' => false,
+        '#default_value' => '1',
         '#to_js_settings' => true,
       ]
     ];
