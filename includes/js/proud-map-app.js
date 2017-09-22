@@ -85,7 +85,8 @@ angular.module('mapAppParent', [
           if( appVals['source'] === 'foursquare' ) {
             appVals['source'] = 'google';
           }
-          if( appVals['map_has_overlay'] !== false  ) {
+          // Value could be false or 0
+          if( appVals['map_has_overlay'] !== false && appVals['map_has_overlay'] != 0 ) {
             appVals['map_has_overlay'] = true;
             appVals['map_style_display'] = 'fullscreen';
           } else {

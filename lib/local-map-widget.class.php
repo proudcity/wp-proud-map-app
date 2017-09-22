@@ -88,10 +88,10 @@ class LocalMap extends Core\ProudWidget {
         '#type' => 'checkbox',
         '#title' => __pcHelp('Render map with fullscreen options?' ),
         '#description' => 'Checking this box will allow users to click on the map to enter full screen mode.',
-        '#return_value' => '1',
+        '#return_value' => true,
         '#label_above' => true,
         '#replace_title' => __pcHelp( 'Render map with fullscreen options?' ),
-        '#default_value' => '1',
+        '#default_value' => true,
         '#to_js_settings' => true,
       ]
     ];
