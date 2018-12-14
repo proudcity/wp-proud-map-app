@@ -62,7 +62,7 @@ angular.module('mapAppParent', [
         // 2. only has 1 path element (since everything is at least maps/map)
         // 3. none of the routes are matched
         var paths = $location.$$path.length > 1 ? $location.$$path.substring(1).split('/').filter(function(n){ return n; }) : [];
-        var shouldRedirect = !paths.length || paths.length < 2 || !_.filter($state.get(), function(state) {
+        var shouldRedirect = !paths.length || paths.length < 2 || !lodash.filter($state.get(), function(state) {
             return state.url && state.url.substring(1) === paths[0];
         }).length;
         if(shouldRedirect) {
@@ -76,7 +76,7 @@ angular.module('mapAppParent', [
 (function($, Proud) {
   Proud.behaviors.proud_map_app = {
     attach: function(context, settings) {
-      var instances = _.get(settings, 'proud_map_app.instances');
+      var instances = lodash.get(settings, 'proud_map_app.instances');
       // initialize instances
       if (instances) {
         $.each(instances, function(id, appVals) {
@@ -94,7 +94,7 @@ angular.module('mapAppParent', [
             appVals['map_style_display'] = 'normal';
           }
           // Set values
-          _.set(Proud, 'settings.proud_map_app.instances.' + id, appVals);
+          lodash.set(Proud, 'settings.proud_map_app.instances.' + id, appVals);
           var $app = $('#' + id);
           if(!$app.hasClass('ng-scope')) {
             angular.bootstrap($app, ['mapAppParent']);
