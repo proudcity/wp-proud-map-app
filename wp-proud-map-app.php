@@ -3,7 +3,7 @@
 Plugin Name:        Proud Map App
 Plugin URI:         http://getproudcity.com
 Description:        ProudCity distribution
-Version:            1.0.0
+Version:            2026.04.01.1208
 Author:             ProudCity
 Author URI:         http://getproudcity.com
 
